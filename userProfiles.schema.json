@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "userProfiles.schema.json",
+  "title": "User profiles",
+  "description": "Structure of userProfiles.json, written in JSON Schema. Checking a document against this file is semantic validation: it tests the meaning of the data, not only its syntax. JSON Schema has no way of writing comments, so every rule below is expressed as a keyword.",
+  "type": "object",
+  "required": ["profiles"],
+  "additionalProperties": false,
+  "properties": {
+    "profiles": {
+      "description": "The profile section. The lab asks for at least three profiles.",
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "email",
+          "dateOfBirth",
+          "address",
+          "preferences"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "firstName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "email": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "ISO 8601 date, yyyy-mm-dd.",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "address": {
+            "type": "object",
+            "required": ["street", "city", "state", "zipCode"],
+            "additionalProperties": false,
+            "properties": {
+              "street": {
+                "type": "string",
+                "minLength": 1
+              },
+              "city": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "type": "string",
+                "minLength": 1
+              },
+              "zipCode": {
+                "type": "string",
+                "description": "New Zealand postcode: four digits.",
+                "pattern": "^[0-9]{4}$"
+              }
+            }
+          },
+          "preferences": {
+            "type": "object",
+            "required": ["theme", "language", "notifications", "subscription"],
+            "additionalProperties": false,
+            "properties": {
+              "theme": {
+                "type": "string",
+                "enum": ["light", "dark", "system"]
+              },
+              "language": {
+                "type": "string",
+                "enum": ["en-NZ", "en-GB", "zh-CN", "mi-NZ"]
+              },
+              "notifications": {
+                "type": "boolean"
+              },
+              "subscription": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

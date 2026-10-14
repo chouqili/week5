@@ -1,0 +1,99 @@
+{
+  "profiles": [
+    {
+      "id": 1,
+      "firstName": "Aroha",
+      "lastName": "Ngata",
+      "email": "aroha.ngata@example.com",
+      "dateOfBirth": "2002-07-14",
+      "address": {
+        "street": "12 Fitzherbert Avenue",
+        "city": "Palmerston North",
+        "state": "Manawatu-Whanganui",
+        "zipCode": "4410"
+      },
+      "preferences": {
+        "theme": "dark",
+        "language": "mi-NZ",
+        "notifications": true,
+        "subscription": true
+      }
+    },
+    {
+      "id": 2,
+      "firstName": "Wei",
+      "lastName": "Chen",
+      "email": "wei.chen@example.com",
+      "dateOfBirth": "1999-11-02",
+      "address": {
+        "street": "45 Queen Street",
+        "city": "Auckland",
+        "state": "Auckland",
+        "zipCode": "1010"
+      },
+      "preferences": {
+        "theme": "light",
+        "language": "zh-CN",
+        "notifications": true,
+        "subscription": false
+      }
+    },
+    {
+      "id": 3,
+      "firstName": "Liam",
+      "lastName": "O'Connor",
+      "email": "liam.oconnor@example.com",
+      "dateOfBirth": "1995-03-28",
+      "address": {
+        "street": "8 Colombo Street",
+        "city": "Christchurch",
+        "state": "Canterbury",
+        "zipCode": "8011"
+      },
+      "preferences": {
+        "theme": "system",
+        "language": "en-NZ",
+        "notifications": false,
+        "subscription": true
+      }
+    },
+    {
+      "id": 4,
+      "firstName": "Sione",
+      "lastName": "Tupou",
+      "email": "sione.tupou@example.com",
+      "dateOfBirth": "2001-01-19",
+      "address": {
+        "street": "27 Victoria Street",
+        "city": "Wellington",
+        "state": "Wellington",
+        "zipCode": "6011"
+      },
+      "preferences": {
+        "theme": "dark",
+        "language": "en-NZ",
+        "notifications": true,
+        "subscription": false
+      }
+    },
+    {
+      "id": 5,
+      "firstName": "Emma",
+      "lastName": "Wilson",
+      "email": "emma.wilson@example.com",
+      "dateOfBirth": "1988-09-05",
+      "address": {
+        "street": "3 George Street",
+        "city": "Dunedin",
+        "state": "Otago",
+        "zipCode": "9016"
+      },
+      "preferences": {
+        "theme": "light",
+        "language": "en-GB",
+        "notifications": false,
+        "subscription": true
+      }
+    }
+  ]
+}

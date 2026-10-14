@@ -1,0 +1,280 @@
+@charset "utf-8";
+
+/* ------------------------------------------------------------------
+   Shared styling for the Topic 5 lab pages (XML and JSON).
+   Every page links to this one style sheet so that both labs have the
+   same readable look as the earlier lab sites.
+
+   Zezhi Li - Massey 25014437 / NZ244 247107 - 14 October 2026
+   ------------------------------------------------------------------ */
+
+body {
+   margin: 0;
+   padding: 2rem 1rem 4rem;
+   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+   line-height: 1.65;
+   color: #1f2933;
+   background-color: #eef1f5;
+}
+
+main {
+   max-width: 56rem;
+   margin: 0 auto;
+   padding: 1.5rem 2rem 2.5rem;
+   background-color: #ffffff;
+   border: 1px solid #dfe3e8;
+   border-radius: 6px;
+   box-shadow: 0 1px 3px rgba(31, 41, 51, 0.08);
+}
+
+h1 {
+   margin: 0 0 0.5rem;
+   padding-bottom: 0.5rem;
+   font-size: 1.6rem;
+   color: #0b5394;
+   border-bottom: 2px solid #0b5394;
+}
+
+h2 {
+   margin-top: 1.75rem;
+   font-size: 1.15rem;
+   color: #0b5394;
+}
+
+h3 {
+   font-size: 1.05rem;
+   color: #0b5394;
+}
+
+p {
+   margin: 0.6rem 0;
+}
+
+a {
+   color: #0b5394;
+}
+
+/* Small greyed-out blocks used for the task description and for notes. */
+.brief,
+.note {
+   margin: 0.75rem 0 1.25rem;
+   padding: 0.6rem 0.9rem;
+   font-size: 0.9rem;
+   background-color: #f4f6f8;
+   border-left: 4px solid #b9c2cc;
+   border-radius: 0 4px 4px 0;
+}
+
+.brief strong,
+.note strong {
+   color: #0b5394;
+}
+
+.breadcrumb {
+   margin: 0 0 0.75rem;
+   font-size: 0.85rem;
+   color: #66727f;
+}
+
+.muted {
+   font-size: 0.9rem;
+   color: #66727f;
+}
+
+/* The status line that reports what the fetch and parse produced. */
+#status {
+   margin: 1rem 0;
+   padding: 0.6rem 0.9rem;
+   font-size: 0.9rem;
+   background-color: #eef6ff;
+   border-left: 4px solid #0b5394;
+   border-radius: 0 4px 4px 0;
+}
+
+#status.error {
+   color: #a32222;
+   font-weight: bold;
+   background-color: #fdecec;
+   border-left-color: #a32222;
+}
+
+/* Tables of values, used for the book catalogue. */
+table {
+   width: 100%;
+   margin: 1rem 0;
+   border-collapse: collapse;
+   font-size: 0.9rem;
+}
+
+caption {
+   margin-bottom: 0.4rem;
+   font-weight: bold;
+   text-align: left;
+   color: #0b5394;
+}
+
+th,
+td {
+   padding: 0.4rem 0.6rem;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #dfe3e8;
+}
+
+th {
+   background-color: #f4f6f8;
+}
+
+tbody tr:nth-child(even) {
+   background-color: #fbfcfd;
+}
+
+td.numeric {
+   white-space: nowrap;
+   text-align: right;
+}
+
+td.property {
+   white-space: nowrap;
+   font-family: Consolas, "Courier New", monospace;
+}
+
+/* Grid of profile cards used on the JSON page. */
+.grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+   gap: 1rem;
+   margin: 1.25rem 0;
+}
+
+.card {
+   padding: 1rem 1.25rem;
+   background-color: #fbfcfd;
+   border: 1px solid #dfe3e8;
+   border-radius: 6px;
+}
+
+.card h3 {
+   margin: 0 0 0.25rem;
+}
+
+.card .handle {
+   margin: 0;
+   font-size: 0.85rem;
+   color: #66727f;
+}
+
+.badge {
+   display: inline-block;
+   margin-left: 0.4rem;
+   padding: 0.1rem 0.5rem;
+   font-size: 0.7rem;
+   font-weight: bold;
+   letter-spacing: 0.04em;
+   text-transform: uppercase;
+   color: #136f3b;
+   background-color: #e3f4e9;
+   border: 1px solid #b7e0c6;
+   border-radius: 999px;
+   vertical-align: middle;
+}
+
+.badge.off {
+   color: #66727f;
+   background-color: #eef1f5;
+   border-color: #dfe3e8;
+}
+
+/* Name and value pairs inside a profile card. */
+.facts {
+   display: grid;
+   grid-template-columns: 8.5rem 1fr;
+   gap: 0.15rem 0.75rem;
+   margin: 0.85rem 0 0;
+   font-size: 0.9rem;
+}
+
+.facts dt {
+   color: #66727f;
+}
+
+.facts dd {
+   margin: 0;
+   word-break: break-word;
+}
+
+.facts dt.sub {
+   padding-left: 0.9rem;
+}
+
+/* The list of preferences inside a profile card. */
+.prefs {
+   margin: 0;
+   padding-left: 1.1rem;
+   list-style-type: square;
+}
+
+.prefs li {
+   margin-bottom: 0.1rem;
+}
+
+/* Lists, code blocks and inline code. */
+code {
+   padding: 0.1rem 0.25rem;
+   font-family: Consolas, "Courier New", monospace;
+   font-size: 0.9rem;
+   background-color: #f4f6f8;
+   border-radius: 3px;
+}
+
+pre {
+   padding: 0.75rem 1rem;
+   font-size: 0.85rem;
+   line-height: 1.5;
+   background-color: #f4f6f8;
+   border-left: 4px solid #b9c2cc;
+   border-radius: 0 4px 4px 0;
+   overflow-x: auto;
+}
+
+pre code {
+   padding: 0;
+   background-color: transparent;
+}
+
+/* Contents page. */
+.contents {
+   padding-left: 1.2rem;
+}
+
+.contents li {
+   margin-bottom: 0.6rem;
+}
+
+footer {
+   margin-top: 2rem;
+   padding-top: 0.75rem;
+   font-size: 0.85rem;
+   color: #66727f;
+   border-top: 1px solid #dfe3e8;
+}
+
+/* One column for the name and value pairs on a narrow screen. */
+@media (max-width: 34rem) {
+   main {
+      padding: 1.25rem 1.1rem 2rem;
+   }
+
+   .facts {
+      grid-template-columns: 1fr;
+      gap: 0 0;
+   }
+
+   .facts dd {
+      margin-bottom: 0.35rem;
+   }
+
+   .facts dt.sub {
+      padding-left: 0;
+   }
+}

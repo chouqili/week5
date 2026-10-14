@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================
+     book.xsd - the XML Schema version of the rules in book.dtd
+     158.258 Web Development, Topic 5 (XML Schema / XSDL)
+     Zezhi Li - Massey 25014437 / NZ244 247107
+
+     XML Schema is written in XML itself, so the same book.xml can be
+     checked against this file instead of the DTD. Compared with book.dtd
+     it adds real data types (xs:decimal for the price, xs:gYear for the
+     year, xs:ID for the id) instead of the single PCDATA type the DTD has.
+     ================================================================== -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <!-- The root element. maxOccurs="unbounded" is the XML Schema way of
+        writing the + quantifier in the DTD. -->
+   <xs:element name="catalogue">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="book" type="bookType" maxOccurs="unbounded"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <!-- A complex type, because a book holds elements of its own and
+        carries an attribute. The sequence fixes the order of the children,
+        and minOccurs="0" is the DTD's ? quantifier for year and genre. -->
+   <xs:complexType name="bookType">
+      <xs:sequence>
+         <xs:element name="title" type="xs:string"/>
+         <xs:element name="author" type="xs:string"/>
+         <xs:element name="year" type="xs:gYear" minOccurs="0"/>
+         <xs:element name="genre" type="xs:string" minOccurs="0"/>
+         <xs:element name="price" type="priceType"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:ID" use="required"/>
+   </xs:complexType>
+
+   <!-- A simple content type: the price holds a decimal number and extends
+        it with the currency attribute. -->
+   <xs:complexType name="priceType">
+      <xs:simpleContent>
+         <xs:extension base="xs:decimal">
+            <xs:attribute name="currency" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+
+</xs:schema>

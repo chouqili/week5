@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   book.xml - a simple book catalogue
+   158.258 Web Development, Topic 5 XML lab
+   Zezhi Li - Massey 25014437 / NZ244 247107
+
+   The document holds one <book> element per book. Each book carries a
+   unique id attribute and the child elements title, author and price.
+   The year and genre elements are optional extras that show how easy it
+   is to extend an XML vocabulary.
+
+   Two constraint models are supplied for this document. The DOCTYPE line
+   below points at book.dtd (a DTD), and the xsi:noNamespaceSchemaLocation
+   attribute on the root element points at book.xsd (an XML Schema), so the
+   file can be validated against either of them.
+-->
+<!DOCTYPE catalogue SYSTEM "book.dtd">
+
+<catalogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="book.xsd">
+   <book id="bk101">
+      <title>The Whale Rider</title>
+      <author>Witi Ihimaera</author>
+      <year>1987</year>
+      <genre>New Zealand fiction</genre>
+      <price currency="NZD">27.00</price>
+   </book>
+
+   <book id="bk102">
+      <title>The Hobbit</title>
+      <author>J. R. R. Tolkien</author>
+      <year>1937</year>
+      <genre>Fantasy</genre>
+      <price currency="NZD">24.99</price>
+   </book>
+
+   <book id="bk103">
+      <title>Nineteen Eighty-Four</title>
+      <author>George Orwell</author>
+      <year>1949</year>
+      <genre>Dystopian fiction</genre>
+      <price currency="NZD">19.99</price>
+   </book>
+
+   <book id="bk104">
+      <title>To Kill a Mockingbird</title>
+      <author>Harper Lee</author>
+      <year>1960</year>
+      <genre>Modern classic</genre>
+      <price currency="NZD">21.50</price>
+   </book>
+
+   <!-- The ampersand in the next title has to be written as the
+        pre-defined entity &amp; so that the document stays well formed. -->
+   <book id="bk105">
+      <title>Harry Potter &amp; the Philosopher's Stone</title>
+      <author>J. K. Rowling</author>
+      <year>1997</year>
+      <genre>Fantasy</genre>
+      <price currency="NZD">25.99</price>
+   </book>
+
+   <book id="bk106">
+      <title>Pride and Prejudice</title>
+      <author>Jane Austen</author>
+      <year>1813</year>
+      <genre>Romance</genre>
+      <price currency="NZD">16.40</price>
+   </book>
+
+   <book id="bk107">
+      <title>The Book Thief</title>
+      <author>Markus Zusak</author>
+      <year>2005</year>
+      <genre>Historical fiction</genre>
+      <price currency="NZD">22.99</price>
+   </book>
+
+   <book id="bk108">
+      <title>Into the Wild</title>
+      <author>Jon Krakauer</author>
+      <year>1996</year>
+      <genre>Non-fiction</genre>
+      <price currency="NZD">20.50</price>
+   </book>
+</catalogue>

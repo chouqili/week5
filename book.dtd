@@ -1,0 +1,47 @@
+<!-- ==================================================================
+     book.dtd - the constraint model for book.xml
+     158.258 Web Development, Topic 5 (XML DTDs)
+     Zezhi Li - Massey 25014437 / NZ244 247107
+
+     A DTD is one of the constraint models for XML. It states which
+     elements and attributes a valid book.xml may contain, in what order
+     they may appear and how often each one may occur. A document that
+     breaks one of these rules is well formed XML but it is not valid
+     against this DTD.
+     ================================================================== -->
+
+<!-- The catalogue element is the root element. The + quantifier means it
+     must hold at least one book, and it may hold any number more. -->
+<!ELEMENT catalogue (book+)>
+
+<!-- A namespace can also be declared in a DTD, and #FIXED pins it to one URI.
+     These two declarations are here because book.xml carries the XML Schema
+     namespace and the schema location on its root element: without them a
+     validating parser reports those attributes as undeclared, and the document
+     would fail the DTD check even though it is perfectly good XML. -->
+<!ATTLIST catalogue
+   xmlns:xsi CDATA #FIXED "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
+
+<!-- A book holds the four required children in this order: title, author
+     and price, with the optional year and genre in between. The ? quantifier
+     means each of those two may be left out, but may not appear twice. -->
+<!ELEMENT book (title, author, year?, genre?, price)>
+
+<!-- Every book must carry an id attribute. ID is a special attribute type:
+     the value is a name that must be unique across the whole document. -->
+<!ATTLIST book
+   id ID #REQUIRED>
+
+<!-- The five child elements all hold text, so they are declared as
+     PCDATA - parsed character data. -->
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT genre (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+
+<!-- The price element also carries a currency attribute. CDATA means the
+     value is a plain string, and #REQUIRED means it must be present. -->
+<!ATTLIST price
+   currency CDATA #REQUIRED>

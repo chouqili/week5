@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+   <!--
+      Name:     Zezhi Li (李泽智)
+      ID:       Massey 25014437 / NZ244 247107
+      Date:     14 October 2026
+      Course:   158.258 Web Development - Topic 5 lab (XML and JSON)
+      Purpose:  Contents page for the Topic 5 lab. It lists the two lab
+                exercises, says where each thing the lab asks for is
+                answered, and lists the lecture topics the work uses.
+
+      Filename: index.html
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="keywords" content="XML lab, JSON lab, book.xml, userProfiles.json, DOMParser, fetch API, JSON Schema, XML DTD" />
+   <title>Topic 5 Lab - XML and JSON - Contents</title>
+   <link href="favicon.svg" rel="icon" type="image/svg+xml" />
+   <link href="lab.css" rel="stylesheet" />
+</head>
+
+<body>
+<main>
+   <h1>158.258 Web Development - Topic 5 Lab</h1>
+
+   <p class="brief">
+      <strong>Contents.</strong> Topic 5 set two labs. The first one asks for an
+      XML document describing a book catalogue and a page that fetches and
+      displays it. The second one asks for a JSON document describing a set of
+      user profiles and a page that fetches and displays that as well. Both pages
+      are plain HTML, CSS and JavaScript, so the whole folder can be published on
+      GitHub Pages as it stands.
+   </p>
+
+   <h2>The two labs</h2>
+   <ol class="contents">
+      <li>
+         <a href="xml-lab.html">Lab 1 - XML: a book catalogue</a><br />
+         The page fetches <code>book.xml</code> with the fetch API, parses the text
+         with <code>DOMParser</code>, and lists the title, author and price of
+         every book in the catalogue.
+         <span class="muted">(xml-lab.html, book.xml, book.dtd, book.xsd)</span>
+      </li>
+      <li>
+         <a href="json-lab.html">Lab 2 - JSON: user profiles</a><br />
+         The page fetches <code>userProfiles.json</code> and shows each user's
+         name, email, date of birth, address and preferences.
+         <span class="muted">(json-lab.html, userProfiles.json, userProfiles.schema.json)</span>
+      </li>
+   </ol>
+
+   <h2>What the lab asked for, and where it is answered</h2>
+   <table>
+      <caption>Every instruction in the Topic 5 lab, and the file that carries it out</caption>
+      <thead>
+         <tr>
+            <th scope="col">What the lab asks for</th>
+            <th scope="col">Where it is done</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>An XML document called <code>book.xml</code>, each book carrying an
+                <code>id</code> attribute and the child elements <code>title</code>,
+                <code>author</code> and <code>price</code>.</td>
+            <td class="property">book.xml</td>
+         </tr>
+         <tr>
+            <td>Check that the XML is well formed and check its structure.</td>
+            <td class="property">book.dtd, book.xsd</td>
+         </tr>
+         <tr>
+            <td>Fetch the XML with the fetch API, parse it with
+                <code>DOMParser</code> and show each book's title, author and price.</td>
+            <td class="property">xml-lab.html</td>
+         </tr>
+         <tr>
+            <td>A JSON document called <code>userProfiles.json</code> holding at least
+                three profiles, each with <code>firstName</code>, <code>lastName</code>,
+                <code>email</code>, <code>dateOfBirth</code> and a
+                <code>preferences</code> object holding the theme, language and
+                notification settings.</td>
+            <td class="property">userProfiles.json</td>
+         </tr>
+         <tr>
+            <td>Add an <code>address</code> (street, city, state, zipCode) to every
+                profile and a <code>subscription</code> field to the preferences.</td>
+            <td class="property">userProfiles.json</td>
+         </tr>
+         <tr>
+            <td>Check that the JSON is well formed and check its structure.</td>
+            <td class="property">userProfiles.schema.json</td>
+         </tr>
+         <tr>
+            <td>Fetch and parse the JSON with the fetch API and show each user's first
+                name, last name, email, date of birth and the other attributes.</td>
+            <td class="property">json-lab.html</td>
+         </tr>
+         <tr>
+            <td>Publish the web page on GitHub Pages.</td>
+            <td class="property">this site</td>
+         </tr>
+      </tbody>
+   </table>
+
+   <h2>The lecture material this lab uses</h2>
+   <p>
+      Each part of the work comes from one of the Topic 5 lectures, so the file
+      named after each topic below is the place to look for it.
+   </p>
+   <table>
+      <caption>Topic 5 lectures and where their material appears in this lab</caption>
+      <thead>
+         <tr>
+            <th scope="col">Lecture</th>
+            <th scope="col">What is used from it</th>
+            <th scope="col">Where</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>Introduction to XML</td>
+            <td>The XML declaration, one root element, closing tags, matching case,
+                quoted attribute values, comments, the pre-defined entity for an
+                ampersand, and the rule that attributes carry information about a
+                value.</td>
+            <td class="property">book.xml</td>
+         </tr>
+         <tr>
+            <td>Topic 5 - XML DTDs</td>
+            <td>Element declarations, PCDATA, the cardinality operators
+                <code>?</code> and <code>+</code>, the <code>ID</code> attribute
+                type and <code>#REQUIRED</code>.</td>
+            <td class="property">book.dtd</td>
+         </tr>
+         <tr>
+            <td>Topic 5 - XML Schema</td>
+            <td><code>xs:element</code>, <code>xs:complexType</code>,
+                <code>xs:sequence</code>, <code>minOccurs</code> and
+                <code>maxOccurs</code>, <code>xs:simpleContent</code> with
+                <code>xs:extension</code>, the built-in types
+                <code>xs:decimal</code>, <code>xs:gYear</code> and
+                <code>xs:ID</code>, and
+                <code>xsi:noNamespaceSchemaLocation</code>.</td>
+            <td class="property">book.xsd</td>
+         </tr>
+         <tr>
+            <td>The JSON Data Model</td>
+            <td>Objects and arrays, name/value pairs, the string, number and boolean
+                value types, and objects nested inside objects.</td>
+            <td class="property">userProfiles.json</td>
+         </tr>
+         <tr>
+            <td>JSON Schema Basics</td>
+            <td><code>$schema</code>, <code>type</code>, <code>properties</code>,
+                <code>required</code>, <code>enum</code>, <code>pattern</code>,
+                <code>minItems</code> and <code>additionalProperties</code>, and the
+                difference between syntactic and semantic validation.</td>
+            <td class="property">userProfiles.schema.json</td>
+         </tr>
+         <tr>
+            <td>Asynchronous JavaScript</td>
+            <td>The fetch API, promises and the <code>then()</code> and
+                <code>catch()</code> chain, <code>response.ok</code>,
+                <code>response.text()</code> and <code>response.json()</code>, and
+                updating the page with the parsed data.</td>
+            <td class="property">xml-lab.html, json-lab.html</td>
+         </tr>
+      </tbody>
+   </table>
+
+   <h2>Files in this site</h2>
+   <table>
+      <caption>Every file that is published</caption>
+      <thead>
+         <tr>
+            <th scope="col">File</th>
+            <th scope="col">What it holds</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td class="property">index.html</td>
+            <td>This contents page.</td>
+         </tr>
+         <tr>
+            <td class="property">xml-lab.html</td>
+            <td>Lab 1 - fetches, parses and displays the book catalogue.</td>
+         </tr>
+         <tr>
+            <td class="property">json-lab.html</td>
+            <td>Lab 2 - fetches and displays the user profiles.</td>
+         </tr>
+         <tr>
+            <td class="property">book.xml</td>
+            <td>The book catalogue in XML, eight books.</td>
+         </tr>
+         <tr>
+            <td class="property">book.dtd</td>
+            <td>The DTD that states what a valid catalogue may contain.</td>
+         </tr>
+         <tr>
+            <td class="property">book.xsd</td>
+            <td>The XML Schema version of the same rules.</td>
+         </tr>
+         <tr>
+            <td class="property">userProfiles.json</td>
+            <td>The user profiles in JSON, five profiles.</td>
+         </tr>
+         <tr>
+            <td class="property">userProfiles.schema.json</td>
+            <td>The JSON Schema the profiles can be validated against.</td>
+         </tr>
+         <tr>
+            <td class="property">lab.css</td>
+            <td>The style sheet shared by the three pages.</td>
+         </tr>
+      </tbody>
+   </table>
+
+   <h2>Running the pages</h2>
+   <p class="note">
+      <strong>Open the site through a web address, not from the file system.</strong>
+      Both lab pages use the fetch API, and a browser refuses to fetch a data file
+      from a <code>file://</code> address because that would break the same-origin
+      rule. Opened that way, the page reports the fetch error instead of the table.
+      Either view the published site, or run a small web server in this folder (for
+      example <code>python -m http.server</code>) and open
+      <code>http://localhost:8000/</code>.
+   </p>
+
+   <footer>
+      <p>Topic 5 lab (XML and JSON) - 158.258 Web Development - 14 October 2026 -
+         Zezhi Li, Massey 25014437 / NZ244 247107</p>
+   </footer>
+</main>
+</body>
+</html>

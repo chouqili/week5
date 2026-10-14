@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+   <!--
+      Name:     Zezhi Li (李泽智)
+      ID:       Massey 25014437 / NZ244 247107
+      Date:     14 October 2026
+      Course:   158.258 Web Development - Topic 5 lab, Lab 1 (XML)
+      Purpose:  Fetches book.xml with the fetch API, parses the text with
+                DOMParser, and displays the title, author and price of every
+                book in the catalogue.
+
+      Filename: xml-lab.html
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="keywords" content="XML lab, book.xml, DOMParser, fetch API, DOM, book catalogue" />
+   <title>Lab 1 - XML: a book catalogue</title>
+   <link href="favicon.svg" rel="icon" type="image/svg+xml" />
+   <link href="lab.css" rel="stylesheet" />
+</head>
+
+<body>
+<main>
+   <p class="breadcrumb"><a href="index.html">Contents</a> &rsaquo; Lab 1 - XML</p>
+
+   <h1>Lab 1 - XML: a book catalogue</h1>
+
+   <p class="brief">
+      <strong>The task.</strong> Create an XML document called
+      <code>book.xml</code> in which each book has an <code>id</code> attribute and
+      the child elements <code>title</code>, <code>author</code> and
+      <code>price</code>. Check that the document is well formed, then fetch it
+      from a web page with the fetch API, parse it with <code>DOMParser</code> and
+      display each book's title, author and price.
+   </p>
+
+   <h2>Step 1 - the XML document</h2>
+   <p>
+      The catalogue has one root element, <code>catalogue</code>, holding eight
+      <code>book</code> elements. Everything the Introduction to XML lecture
+      listed as a rule is followed: the file starts with the XML declaration, there
+      is exactly one root element, every element that is opened is closed, the
+      elements are properly nested, the tag names are spelled with matching case,
+      and every attribute value is inside quotation marks.
+   </p>
+   <p>
+      Each book carries the <code>id</code> attribute the lab asks for. The id is a
+      reference number rather than information about the book itself, so it belongs
+      in an attribute, while the title, author and price describe the book and are
+      therefore child elements. The <code>currency</code> attribute on the price is
+      the other case: it is the unit the number is measured in, which is the kind
+      of meta information the lecture says an attribute should carry. The
+      <code>year</code> and <code>genre</code> elements are extra children that
+      show the document can be extended without disturbing the rest of it.
+   </p>
+   <p>
+      One title contains an ampersand. A bare ampersand would end the text there and
+      break the document, so it is written as the pre-defined entity
+      <code>&amp;amp;</code>. There is also a comment in the file, written the same
+      way as an HTML comment, explaining that entity.
+   </p>
+
+   <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE catalogue SYSTEM "book.dtd"&gt;
+
+&lt;catalogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="book.xsd"&gt;
+   &lt;book id="bk105"&gt;
+      &lt;title&gt;Harry Potter &amp;amp; the Philosopher's Stone&lt;/title&gt;
+      &lt;author&gt;J. K. Rowling&lt;/author&gt;
+      &lt;year&gt;1997&lt;/year&gt;
+      &lt;genre&gt;Fantasy&lt;/genre&gt;
+      &lt;price currency="NZD"&gt;25.99&lt;/price&gt;
+   &lt;/book&gt;
+   ...
+&lt;/catalogue&gt;</code></pre>
+
+   <p class="note">
+      <strong>Two constraint models.</strong> The <code>DOCTYPE</code> line points
+      at <code>book.dtd</code>, the DTD written from the XML DTDs lecture, and
+      <code>xsi:noNamespaceSchemaLocation</code> points at <code>book.xsd</code>,
+      the XML Schema of the same rules written from the XML Schema lecture. A
+      parser that reads neither of them still handles the document, because being
+      well formed and being valid are two different questions.
+   </p>
+
+   <h2>Step 2 - fetching and parsing the XML</h2>
+   <p>
+      <code>fetch("book.xml")</code> returns a promise. The first
+      <code>then()</code> handler receives a response object and checks
+      <code>response.ok</code> before going on, as the Asynchronous JavaScript
+      lecture shows; <code>response.text()</code> then hands the second handler the
+      contents of the file as a plain string. The lab's own two lines turn that
+      string into a document tree, and the tree is read with the same DOM methods
+      that would be used on an HTML page.
+   </p>
+
+   <pre><code>const parser = new DOMParser();
+const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+const books = xmlDoc.getElementsByTagName("book");
+const title = books[0].getElementsByTagName("title")[0].textContent;</code></pre>
+
+   <p>
+      If the XML were broken, <code>parseFromString()</code> would return a document
+      holding a <code>parsererror</code> element instead of a catalogue, so the page
+      checks for that and reports the problem rather than drawing an empty table.
+      The tag names used here are all in lower case to match the document, because
+      XML is case sensitive and <code>Title</code> would find nothing.
+   </p>
+
+   <h2>Step 3 - the catalogue on the page</h2>
+   <p id="status">Loading book.xml ...</p>
+
+   <table>
+      <caption>Every book in book.xml, read from the parsed XML document</caption>
+      <thead>
+         <tr>
+            <th scope="col">id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Year</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Price</th>
+         </tr>
+      </thead>
+      <tbody id="catalogue-body"></tbody>
+   </table>
+
+   <noscript>
+      <p class="note">This page needs JavaScript switched on. The table above is
+         filled in by a script that fetches and parses book.xml.</p>
+   </noscript>
+
+   <footer>
+      <p>Lab 1 (XML) - 158.258 Web Development - data file: book.xml -
+         Zezhi Li, Massey 25014437 / NZ244 247107</p>
+   </footer>
+</main>
+
+<script>
+/* =====================================================================
+   Topic 5 XML lab - the JavaScript for this page.
+
+   book.xml is fetched with the fetch API (Asynchronous JavaScript lecture)
+   and parsed with DOMParser. Every book is then added to the table above
+   with DOM methods, and the line above the table reports what was found.
+   ===================================================================== */
+
+const statusBox = document.getElementById("status");
+const tbody = document.getElementById("catalogue-body");
+
+/* Show a price in the currency named in the XML, so the page would still
+   read correctly if the currency attribute ever changed. */
+function formatPrice(amount, code) {
+   try {
+      return new Intl.NumberFormat("en-NZ", {
+         style: "currency",
+         currency: code || "NZD"
+      }).format(amount);
+   } catch (error) {
+      return amount.toFixed(2) + " " + (code || "");
+   }
+}
+
+/* The trimmed text inside the first child element with this tag name.
+   XML is case sensitive, so these names have to match book.xml. */
+function childText(parent, tagName) {
+   const node = parent.getElementsByTagName(tagName)[0];
+   return node ? node.textContent.trim() : "";
+}
+
+function addCell(row, text, className) {
+   const cell = document.createElement("td");
+   cell.textContent = text;
+   if (className) {
+      cell.className = className;
+   }
+   row.appendChild(cell);
+}
+
+/* Chrome and Edge wrap the useful sentence from a parser error in their own
+   boilerplate, so this keeps the part that names the problem. */
+function parserMessage(problem) {
+   let text = problem.textContent.replace(/\s+/g, " ").trim();
+   const start = text.indexOf("error on line");
+   if (start > -1) {
+      text = text.slice(start);
+   }
+   const end = text.indexOf("Below is a rendering");
+   if (end > -1) {
+      text = text.slice(0, end).trim();
+   }
+   return text;
+}
+
+function showCatalogue(xmlDoc) {
+   const books = xmlDoc.getElementsByTagName("book");
+
+   if (books.length === 0) {
+      statusBox.className = "error";
+      statusBox.textContent = "book.xml was parsed, but it holds no book elements.";
+      return;
+   }
+
+   const prices = [];
+   let currency = "NZD";
+
+   for (let i = 0; i < books.length; i = i + 1) {
+      const book = books[i];
+      const priceElement = book.getElementsByTagName("price")[0];
+      const amount = parseFloat(childText(book, "price"));
+
+      if (i === 0 && priceElement) {
+         currency = priceElement.getAttribute("currency") || currency;
+      }
+      prices.push(amount);
+
+      const row = document.createElement("tr");
+      addCell(row, book.getAttribute("id"), "property");
+      addCell(row, childText(book, "title"));
+      addCell(row, childText(book, "author"));
+      addCell(row, childText(book, "year") || "-");
+      addCell(row, childText(book, "genre") || "-");
+      addCell(row, formatPrice(amount, currency), "numeric");
+      tbody.appendChild(row);
+   }
+
+   const total = prices.reduce(function (sum, value) {
+      return sum + value;
+   }, 0);
+
+   statusBox.textContent = "book.xml fetched and parsed with DOMParser: " +
+      books.length + " books, " + formatPrice(Math.min(...prices), currency) +
+      " to " + formatPrice(Math.max(...prices), currency) +
+      ", average " + formatPrice(total / prices.length, currency) + ".";
+}
+
+fetch("book.xml")
+   .then(function (response) {
+      if (!response.ok) {
+         throw new Error("book.xml could not be loaded (HTTP " + response.status + ")");
+      }
+      return response.text();
+   })
+   .then(function (xmlText) {
+      /* The two lines the lab instructions ask for. */
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+      /* XML that is not well formed comes back as a document holding a
+         parsererror element instead of a catalogue. */
+      const problem = xmlDoc.getElementsByTagName("parsererror");
+      if (problem.length > 0) {
+         throw new Error("book.xml is not well formed - " + parserMessage(problem[0]));
+      }
+
+      showCatalogue(xmlDoc);
+   })
+   .catch(function (error) {
+      statusBox.className = "error";
+      statusBox.textContent = error.message;
+   });
+</script>
+</body>
+</html>

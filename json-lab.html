@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+   <!--
+      Name:     Zezhi Li (李泽智)
+      ID:       Massey 25014437 / NZ244 247107
+      Date:     14 October 2026
+      Course:   158.258 Web Development - Topic 5 lab, Lab 2 (JSON)
+      Purpose:  Fetches userProfiles.json with the fetch API and displays
+                every user's name, email, date of birth, address and
+                preferences.
+
+      Filename: json-lab.html
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="keywords" content="JSON lab, userProfiles.json, fetch API, preferences, JSON Schema" />
+   <title>Lab 2 - JSON: user profiles</title>
+   <link href="favicon.svg" rel="icon" type="image/svg+xml" />
+   <link href="lab.css" rel="stylesheet" />
+</head>
+
+<body>
+<main>
+   <p class="breadcrumb"><a href="index.html">Contents</a> &rsaquo; Lab 2 - JSON</p>
+
+   <h1>Lab 2 - JSON: user profiles</h1>
+
+   <p class="brief">
+      <strong>The task.</strong> Create a JSON document called
+      <code>userProfiles.json</code> holding at least three user profiles. Each
+      profile has a first name, last name, email address, date of birth and a
+      preferences object with the theme, language and notification settings. Every
+      profile also needs an address, and the preferences need a newsletter
+      subscription setting. The document is then fetched and displayed on a page.
+   </p>
+
+   <h2>Step 1 - the JSON document</h2>
+   <p>
+      The file holds five profiles in an array, which is the profile section the lab
+      refers to. Everything in it is built from the three data structures of the
+      JSON data model: an object (the root, and each profile), an array (the list of
+      profiles) and the name/value pairs inside them. The values cover the string,
+      number and boolean types, and the address and preferences objects are nested
+      inside each profile, so a profile holds objects of its own.
+   </p>
+   <p>
+      As the JSON data model lecture points out, a value is what it looks like: text
+      in quotation marks is a string, a number appears without quotes, and
+      <code>true</code> and <code>false</code> are booleans that are never quoted.
+      JSON has no comments either, so the document explains itself through the names
+      of its fields.
+   </p>
+
+   <pre><code>{
+  "profiles": [
+    {
+      "id": 3,
+      "firstName": "Liam",
+      "lastName": "O'Connor",
+      "email": "liam.oconnor@example.com",
+      "dateOfBirth": "1995-03-28",
+      "address": {
+        "street": "8 Colombo Street",
+        "city": "Christchurch",
+        "state": "Canterbury",
+        "zipCode": "8011"
+      },
+      "preferences": {
+        "theme": "system",
+        "language": "en-NZ",
+        "notifications": false,
+        "subscription": true
+      }
+    }
+  ]
+}</code></pre>
+
+   <p class="note">
+      <strong>Checking the structure.</strong>
+      <code>userProfiles.schema.json</code> is a JSON Schema for this document. A
+      lint tool only checks that the JSON is syntactically valid - that the braces,
+      commas and quotation marks balance - but a schema goes deeper and checks
+      meaning: that every profile really has all seven fields, that the email
+      address matches an email pattern, that the date of birth is written as
+      <code>yyyy-mm-dd</code>, that a postcode is four digits, and that the theme is
+      one of the values the page knows how to display. That is the difference the
+      JSON Schema lecture draws between syntactic and semantic validation.
+   </p>
+
+   <h2>Step 2 - fetching and parsing the JSON</h2>
+   <p>
+      The fetch chain below is the pattern from the Asynchronous JavaScript lecture.
+      The first handler checks <code>response.ok</code> and throws when the server
+      answered with an error, so that one <code>catch()</code> deals with both a
+      missing file and a network problem. On success <code>response.json()</code>
+      deserialises the text into real JavaScript objects and arrays, which is what
+      makes <code>profile.preferences.theme</code> possible on the next line.
+   </p>
+
+   <pre><code>fetch('userProfiles.json')
+  .then(response =&gt; {
+    if (!response.ok)
+      throw new Error('Fetch error: ' + response.status);
+    else
+      return response.json();
+  })
+  .then(json =&gt; { ... })   // json.profiles is now an array of objects
+  .catch(err =&gt; console.error('Fetch error: ' + err.message));</code></pre>
+
+   <h2>Step 3 - the profiles on the page</h2>
+   <p id="status">Loading userProfiles.json ...</p>
+
+   <div class="grid" id="profiles"></div>
+
+   <noscript>
+      <p class="note">This page needs JavaScript switched on. The profiles above are
+         added by a script that fetches userProfiles.json.</p>
+   </noscript>
+
+   <footer>
+      <p>Lab 2 (JSON) - 158.258 Web Development - data file: userProfiles.json -
+         Zezhi Li, Massey 25014437 / NZ244 247107</p>
+   </footer>
+</main>
+
+<script>
+/* =====================================================================
+   Topic 5 JSON lab - the JavaScript for this page.
+
+   userProfiles.json is fetched with the fetch API (Asynchronous JavaScript
+   lecture) and each profile is turned into a card with DOM methods.
+   ===================================================================== */
+
+const statusBox = document.getElementById("status");
+const list = document.getElementById("profiles");
+
+const MONTHS = ["January", "February", "March", "April", "May", "June",
+   "July", "August", "September", "October", "November", "December"];
+
+const LANGUAGE_NAMES = {
+   "en-NZ": "English (New Zealand)",
+   "en-GB": "English (United Kingdom)",
+   "zh-CN": "Chinese (Simplified)",
+   "mi-NZ": "te reo Maori"
+};
+
+const THEME_NAMES = {
+   "light": "Light",
+   "dark": "Dark",
+   "system": "Follow the device (system)"
+};
+
+/* "1995-03-28" is shown as "28 March 1995". The parts are taken from the
+   string itself because a date-only string passed to new Date is read as
+   UTC, which can put the date a day early in a New Zealand time zone. */
+function formatDate(isoDate) {
+   const parts = String(isoDate).split("-");
+   if (parts.length !== 3) {
+      return String(isoDate);
+   }
+   return Number(parts[2]) + " " + MONTHS[Number(parts[1]) - 1] + " " + parts[0];
+}
+
+/* Whole years since the date of birth, worked out from the parts. */
+function ageOn(isoDate) {
+   const parts = String(isoDate).split("-").map(Number);
+   const today = new Date();
+   let age = today.getFullYear() - parts[0];
+   const monthDifference = (today.getMonth() + 1) - parts[1];
+
+   if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < parts[2])) {
+      age = age - 1;
+   }
+   return age;
+}
+
+function addFact(parent, term, value) {
+   const dt = document.createElement("dt");
+   dt.textContent = term;
+   const dd = document.createElement("dd");
+   dd.textContent = value;
+   parent.appendChild(dt);
+   parent.appendChild(dd);
+}
+
+function addItem(parentList, text) {
+   const item = document.createElement("li");
+   item.textContent = text;
+   parentList.appendChild(item);
+}
+
+function buildCard(profile) {
+   const preferences = profile.preferences;
+   const address = profile.address;
+
+   const card = document.createElement("article");
+   card.className = "card";
+
+   const heading = document.createElement("h3");
+   heading.textContent = profile.firstName + " " + profile.lastName;
+
+   const badge = document.createElement("span");
+   badge.className = preferences.subscription ? "badge" : "badge off";
+   badge.textContent = preferences.subscription ? "Newsletter" : "No newsletter";
+   heading.appendChild(badge);
+   card.appendChild(heading);
+
+   const handle = document.createElement("p");
+   handle.className = "handle";
+   handle.textContent = "profile #" + profile.id;
+   card.appendChild(handle);
+
+   const facts = document.createElement("dl");
+   facts.className = "facts";
+
+   addFact(facts, "Email", profile.email);
+   addFact(facts, "Date of birth", formatDate(profile.dateOfBirth) +
+      " (" + ageOn(profile.dateOfBirth) + " years old)");
+   addFact(facts, "Address", address.street + ", " + address.city + ", " +
+      address.state + " " + address.zipCode);
+
+   const term = document.createElement("dt");
+   term.textContent = "Preferences";
+   const detail = document.createElement("dd");
+   const prefList = document.createElement("ul");
+   prefList.className = "prefs";
+   addItem(prefList, "Theme: " + (THEME_NAMES[preferences.theme] || preferences.theme));
+   addItem(prefList, "Language: " + (LANGUAGE_NAMES[preferences.language] || preferences.language));
+   addItem(prefList, "Notifications: " + (preferences.notifications ? "on" : "off"));
+   addItem(prefList, "Newsletter subscription: " + (preferences.subscription ? "yes" : "no"));
+   detail.appendChild(prefList);
+   facts.appendChild(term);
+   facts.appendChild(detail);
+
+   card.appendChild(facts);
+   return card;
+}
+
+function showProfiles(profiles) {
+   if (!profiles || profiles.length === 0) {
+      statusBox.className = "error";
+      statusBox.textContent = "userProfiles.json was parsed, but it holds no profiles.";
+      return;
+   }
+
+   for (let i = 0; i < profiles.length; i = i + 1) {
+      list.appendChild(buildCard(profiles[i]));
+   }
+
+   const subscribed = profiles.filter(function (profile) {
+      return profile.preferences.subscription;
+   }).length;
+
+   const notified = profiles.filter(function (profile) {
+      return profile.preferences.notifications;
+   }).length;
+
+   statusBox.textContent = "userProfiles.json fetched and parsed: " +
+      profiles.length + " profiles; " + subscribed +
+      " subscribed to the newsletter and " + notified +
+      " have notifications switched on.";
+}
+
+fetch("userProfiles.json")
+   .then(response => {
+      if (!response.ok)
+         throw new Error("Fetch error: " + response.status);
+      else
+         return response.json();
+   })
+   .then(json => {
+      showProfiles(json.profiles);
+   })
+   .catch(err => {
+      /* The message already starts with "Fetch error: " when it came from the
+         status check above, so the words are only added when they are missing. */
+      const message = err.message.indexOf("Fetch error") === 0
+         ? err.message
+         : "Fetch error: " + err.message;
+      statusBox.className = "error";
+      statusBox.textContent = message;
+      console.error(message);
+   });
+</script>
+</body>
+</html>
